@@ -1,0 +1,130 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.5.4/schema.json",
+	"vcs": {
+		"enabled": false,
+		"clientKind": "git",
+		"useIgnoreFile": false
+	},
+	"files": {
+		"ignoreUnknown": false,
+		"includes": [
+			"**/src/**/*",
+			"**/scripts/**/*",
+			"**/vitest.config.ts",
+			"**/vitest.e2e.config.ts",
+			"**/drizzle.config.ts",
+			"!**/dist",
+			"!**/coverage*",
+			"!**/drizzle"
+		]
+	},
+	"formatter": {
+		"enabled": true,
+		"indentStyle": "space",
+		"indentWidth": 2,
+		"lineEnding": "lf",
+		"lineWidth": 80,
+		"formatWithErrors": false
+	},
+	"assist": {
+		"actions": {
+			"source": {
+				"organizeImports": {
+					"level": "on",
+					"options": {
+						"groups": [
+							[":NODE:"],
+							":BLANK_LINE:",
+							[":PACKAGE:", "!@turystack/**", "!@repo/**"],
+							":BLANK_LINE:",
+							["@turystack/**"],
+							":BLANK_LINE:",
+							["@repo/**"],
+							":BLANK_LINE:",
+							["@/database/**"],
+							":BLANK_LINE:",
+							["@/support/**"],
+							":BLANK_LINE:",
+							["@/adapters/**"],
+							":BLANK_LINE:",
+							["@/domains/**"],
+							":BLANK_LINE:",
+							["@/controllers/**"],
+							":BLANK_LINE:",
+							["@/exceptions", "@/env.schema"],
+							":BLANK_LINE:",
+							[":PATH:"]
+						]
+					}
+				},
+				"useSortedKeys": { "level": "on", "options": {} },
+				"useSortedProperties": { "level": "on", "options": {} }
+			}
+		}
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true,
+			"style": {
+				"useBlockStatements": "error",
+				"noNonNullAssertion": "warn"
+			},
+			"complexity": {
+				"noStaticOnlyClass": "off",
+				"noBannedTypes": "off"
+			},
+			"correctness": {
+				"noUnusedFunctionParameters": "warn"
+			}
+		}
+	},
+	"json": {
+		"parser": {
+			"allowComments": true,
+			"allowTrailingCommas": true
+		}
+	},
+	"javascript": {
+		"parser": {
+			"unsafeParameterDecoratorsEnabled": true
+		},
+		"formatter": {
+			"quoteStyle": "single",
+			"semicolons": "asNeeded",
+			"arrowParentheses": "always",
+			"bracketSpacing": true,
+			"trailingCommas": "all",
+			"expand": "always"
+		}
+	},
+	"overrides": [
+		{
+			"includes": ["**/*.json"],
+			"assist": {
+				"actions": {
+					"source": {
+						"useSortedKeys": { "level": "off", "options": {} },
+						"useSortedProperties": { "level": "off", "options": {} }
+					}
+				}
+			}
+		},
+		{
+			"includes": [
+				"**/*.schema.ts",
+				"**/*.schemas.ts",
+				"**/*.entity.ts",
+				"**/*.types.ts"
+			],
+			"assist": {
+				"actions": {
+					"source": {
+						"useSortedKeys": { "level": "off", "options": {} },
+						"useSortedProperties": { "level": "off", "options": {} }
+					}
+				}
+			}
+		}
+	]
+}

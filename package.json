@@ -1,0 +1,29 @@
+{
+	"name": "@turystack/backend-config",
+	"description": "Shared biome + TypeScript config for turystack APIs and handlers.",
+	"private": false,
+	"version": "1.0.0",
+	"sideEffects": false,
+	"exports": {
+		"./biome": "./biome.json",
+		"./tsconfig.api": "./tsconfig.api.json",
+		"./tsconfig.api.json": "./tsconfig.api.json",
+		"./tsconfig.handler": "./tsconfig.handler.json",
+		"./tsconfig.handler.json": "./tsconfig.handler.json"
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"engines": {
+		"node": ">=20"
+	},
+	"files": [
+		"biome.json",
+		"tsconfig.api.json",
+		"tsconfig.handler.json"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/turystack/backend-config.git"
+	}
+}
