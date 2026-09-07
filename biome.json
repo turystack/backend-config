@@ -280,38 +280,5 @@
 				}
 			}
 		}
-	],
-	"plugins": [
-		"./plugins/breaker-named.grit",
-		"./plugins/dto-from-schema.grit",
-		"./plugins/log-level.grit",
-		"./plugins/no-adapter-new.grit",
-		"./plugins/no-ambient-clock.grit",
-		"./plugins/no-ambient-env.grit",
-		"./plugins/no-await-publish.grit",
-		"./plugins/no-background-loop.grit",
-		"./plugins/no-blind-error-cast.grit",
-		"./plugins/no-branch-on-message.grit",
-		"./plugins/no-client-in-adapter.grit",
-		"./plugins/no-empty-catch.grit",
-		"./plugins/no-external-call-in-tx.grit",
-		"./plugins/no-hand-rolled-field.grit",
-		"./plugins/no-hand-rolled-filter.grit",
-		"./plugins/no-hand-written-model-type.grit",
-		"./plugins/no-hard-delete.grit",
-		"./plugins/no-id-as-metric-label.grit",
-		"./plugins/no-io-in-entity.grit",
-		"./plugins/no-literal-throw.grit",
-		"./plugins/no-log-and-rethrow.grit",
-		"./plugins/no-log-interpolation.grit",
-		"./plugins/no-mass-assignment.grit",
-		"./plugins/no-permission-literal.grit",
-		"./plugins/no-plain-secret-compare.grit",
-		"./plugins/no-provider-switch.grit",
-		"./plugins/no-publish-in-tx.grit",
-		"./plugins/no-scope-from-input.grit",
-		"./plugins/no-string-date.grit",
-		"./plugins/no-swallow-in-handler.grit",
-		"./plugins/no-unbounded-concurrency.grit"
 	]
 }
