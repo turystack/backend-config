@@ -19,7 +19,17 @@ export function backend(overrides = {}) {
 	return defineConfig({
 		test: {
 			coverage: coverage({
-				exclude: ['**/*.mock.ts', '**/*.types.ts', '**/main.ts', '**/*.config.ts'],
+				// Composition roots: a module that registers providers and a script
+				// that runs one operation decide nothing, and a test for either
+				// asserts that the wiring is the wiring.
+				exclude: [
+					'**/*.config.ts',
+					'**/*.mock.ts',
+					'**/*.module.ts',
+					'**/*.types.ts',
+					'**/main.ts',
+					'**/seed.ts',
+				],
 			}),
 			passWithNoTests: false,
 			...overrides,
