@@ -1,0 +1,16 @@
+// ARC-DEL-5 — a failure is rethrown so the infrastructure can retry and
+// dead-letter it.
+//
+// A catch that returns tells the broker the message was handled. The retry
+// never fires, the dead-letter queue stays empty, and the work simply did not
+// happen — with nothing anywhere saying so. It is the quietest way to lose a
+// payment.
+//
+// Written as the whole `try/catch`: Grit does not bind a bare `catch` clause
+// as a pattern here. Verified against fixtures/{fail,pass}/no-swallow-in-handler.ts.
+`try { $body } catch { return $value }` where {
+  register_diagnostic(
+    span = $value,
+    message = "ARC-DEL-5: rethrow — returning from a catch acknowledges the message as handled, so the retry never fires."
+  )
+}

@@ -1,0 +1,20 @@
+// ARC-OBS-5 — dimensions and attributes are low cardinality.
+//
+// An identifier as a metric label creates one time series per value. The
+// storage bill grows with the customer count, the dashboard stops loading, and
+// the fix is a migration of historical data rather than a config change.
+//
+// Scoped to `increment` because a metric call is the case that hurts: an
+// identifier in a *log* field is allowed and often necessary (ARC-OBS-3).
+//
+// The alternation is non-capturing on purpose. Grit binds a regex capture group
+// to a variable, so `(a|b)` fails with "regex pattern matched 1 variables"
+// instead of matching — the second time that cost a debugging round here.
+$node where {
+  $node <: contains `$metrics.increment($name, $fields)`,
+  $fields <: r".*(?:organizationId|userId|orderId|workspaceId).*",
+  register_diagnostic(
+    span = $fields,
+    message = "ARC-OBS-5: an identifier is never a metric dimension — one series per value is unbounded cardinality."
+  )
+}

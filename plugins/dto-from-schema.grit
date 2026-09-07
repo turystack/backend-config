@@ -1,0 +1,14 @@
+// CTL-L2 — a request or response DTO is a projection of a canonical schema,
+// built with `.pick`/`.omit`/`.extend`. Written by hand it stops being a
+// projection: the canonical schema tightens a field and the transport keeps
+// accepting the old one.
+$node where {
+  $node <: or {
+    r"type\s+\w*(?:Request|Response|Dto|DTO)\s*=\s*\{[\s\S]*\}",
+    r"interface\s+\w*(?:Request|Response|Dto|DTO)\s*\{[\s\S]*\}"
+  },
+  register_diagnostic(
+    span = $node,
+    message = "CTL-L2: derive the DTO from the canonical schema (`.pick`/`.extend`) and infer its type — a hand-written DTO drifts from the contract."
+  )
+}

@@ -1,0 +1,11 @@
+// EVT-3 — the publisher is fire-and-forget.
+//
+// Awaiting it makes the operation's latency depend on the broker and turns a
+// reaction into a step of the flow, which is exactly the coupling events exist
+// to remove. The write already committed; the effect is someone else's job.
+`await $publisher.publish($args)` where {
+  register_diagnostic(
+    span = $publisher,
+    message = "EVT-3: publish is fire-and-forget — awaiting it couples the operation to the broker."
+  )
+}

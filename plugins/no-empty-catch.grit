@@ -1,0 +1,9 @@
+// ARC-ERR-7 — every error becomes visible feedback or a propagated failure.
+// An empty catch is the failure this rule exists for: the system continues as
+// if nothing happened, and the incident is discovered by a user.
+`try { $body } catch { }` where {
+  register_diagnostic(
+    span = $body,
+    message = "ARC-ERR-7: an empty catch swallows the failure. Produce feedback or rethrow."
+  )
+}

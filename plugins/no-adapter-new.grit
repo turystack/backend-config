@@ -1,0 +1,12 @@
+// ADP-2 — an adapter is injected through its token, never constructed.
+//
+// `new` at the call site pins the concrete implementation into the caller, so
+// swapping the provider means editing every use — and a test cannot substitute
+// it without reaching into the module.
+`new $adapter($args)` where {
+  $adapter <: r".*Adapter$",
+  register_diagnostic(
+    span = $adapter,
+    message = "ADP-2: inject the adapter through its interface token — `new` pins the implementation into the caller."
+  )
+}

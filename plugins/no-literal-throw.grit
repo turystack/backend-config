@@ -1,0 +1,9 @@
+// ARC-ERR-3 — an error is thrown with a category class and a catalogue key,
+// never with a literal string. A loose Error has no stable code, so no
+// consumer can branch on it and no catalogue can document it.
+`throw new Error($message)` where {
+  register_diagnostic(
+    span = $message,
+    message = "ARC-ERR-3: throw a catalogue class with a stable code, never `new Error('...')`."
+  )
+}

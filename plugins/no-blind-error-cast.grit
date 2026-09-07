@@ -1,0 +1,12 @@
+// ERR-L1 — an error outside the SDK is `unknown`: narrow it before touching
+// it.
+//
+// A cast tells the compiler to stop checking exactly where the value is least
+// known. The property read then throws inside the catch, replacing a handled
+// failure with an unhandled one.
+`$value as Error` where {
+  register_diagnostic(
+    span = $value,
+    message = "ERR-L1: narrow before reading — a cast silences the compiler where the value is least known."
+  )
+}

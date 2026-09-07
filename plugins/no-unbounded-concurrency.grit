@@ -1,0 +1,12 @@
+// ARC-DEL-6 — a batch uses bounded concurrency and an explicit failure policy.
+//
+// `Promise.all` over a mapped list opens as many connections as the list is
+// long. It is fine on the seed data and takes the database down the first time
+// production has ten thousand rows — and the failure looks like the database's
+// fault.
+`Promise.all($source.map($mapper))` where {
+  register_diagnostic(
+    span = $source,
+    message = "ARC-DEL-6: bound the concurrency — Promise.all over a dynamic list opens one call per item."
+  )
+}

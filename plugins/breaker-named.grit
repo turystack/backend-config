@@ -1,0 +1,15 @@
+// RSL-4 — one circuit per dependency, named after it.
+//
+// With no name the circuit defaults to `ClassName.methodName`, so every method
+// opens its own. The failing provider then takes N times the traffic before any
+// circuit trips, and one method recovering says nothing about the rest.
+//
+// Matched by regex: Grit does not bind a decorator with an empty argument list
+// as a pattern. Verified against fixtures/{fail,pass}/breaker-named.ts.
+$node where {
+  $node <: r"@CircuitBreaker\(\)",
+  register_diagnostic(
+    span = $node,
+    message = "RSL-4: name the circuit after the dependency — the default is one circuit per method."
+  )
+}

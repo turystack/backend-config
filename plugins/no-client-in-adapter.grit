@@ -1,0 +1,13 @@
+// ADP-4 — an adapter that constructs its own provider client owns credentials,
+// timeouts and a base URL that no test can replace. Injecting the client is
+// what makes the adapter substitutable, which is the only reason it exists.
+`class $name { $body }` where {
+  $name <: r"\w*Adapter",
+  $body <: contains `new $client($args)` where {
+    $client <: r"\w*(?:Client|Sdk|SDK|Api|API|Connection)"
+  },
+  register_diagnostic(
+    span = $client,
+    message = "ADP-4: receive the provider client through DI. Constructing it inside the adapter pins credentials and timeouts to the implementation."
+  )
+}

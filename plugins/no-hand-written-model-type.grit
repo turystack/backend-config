@@ -1,0 +1,13 @@
+// SCH-L3 — the schema is the single declaration of the shape. A hand-written
+// type beside it is a second declaration that drifts silently: the schema gains
+// a field, the type does not, and the compiler agrees with both.
+//
+// Type alias bodies do not bind through a snippet, so the node is matched by
+// regex: a `type X = { … }` whose name reads like a model.
+$node where {
+  $node <: r"type\s+\w*(?:Model|Entity|Record|Row)\s*=\s*\{[\s\S]*\}",
+  register_diagnostic(
+    span = $node,
+    message = "SCH-L3: derive the type with `z.infer<typeof schema>` — a hand-written shape is a second source of truth."
+  )
+}

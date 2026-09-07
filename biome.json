@@ -33,32 +33,63 @@
 					"level": "on",
 					"options": {
 						"groups": [
-							[":NODE:"],
+							[
+								":NODE:"
+							],
 							":BLANK_LINE:",
-							[":PACKAGE:", "!@turystack/**", "!@repo/**"],
+							[
+								":PACKAGE:",
+								"!@turystack/**",
+								"!@repo/**"
+							],
 							":BLANK_LINE:",
-							["@turystack/**"],
+							[
+								"@turystack/**"
+							],
 							":BLANK_LINE:",
-							["@repo/**"],
+							[
+								"@repo/**"
+							],
 							":BLANK_LINE:",
-							["@/database/**"],
+							[
+								"@/database/**"
+							],
 							":BLANK_LINE:",
-							["@/support/**"],
+							[
+								"@/support/**"
+							],
 							":BLANK_LINE:",
-							["@/adapters/**"],
+							[
+								"@/adapters/**"
+							],
 							":BLANK_LINE:",
-							["@/domains/**"],
+							[
+								"@/domains/**"
+							],
 							":BLANK_LINE:",
-							["@/controllers/**"],
+							[
+								"@/controllers/**"
+							],
 							":BLANK_LINE:",
-							["@/exceptions", "@/env.schema"],
+							[
+								"@/exceptions",
+								"@/env.schema"
+							],
 							":BLANK_LINE:",
-							[":PATH:"]
+							[
+								":PATH:"
+							]
 						]
 					}
 				},
-				"useSortedKeys": { "level": "on", "options": {} },
-				"useSortedProperties": { "level": "on", "options": {} }
+				"useSortedKeys": {
+					"level": "on",
+					"options": {}
+				},
+				"useSortedProperties": {
+					"level": "on",
+					"options": {}
+				}
 			}
 		}
 	},
@@ -100,12 +131,128 @@
 	},
 	"overrides": [
 		{
-			"includes": ["**/*.json"],
+			"includes": [
+				"**/src/domains/**",
+				"**/libs/domains/**"
+			],
+			"linter": {
+				"rules": {
+					"style": {
+						"noRestrictedImports": {
+							"level": "error",
+							"options": {
+								"patterns": [
+									{
+										"group": [
+											"@nestjs/**"
+										],
+										"message": "ARC-LAY-2: the domain imports no framework."
+									},
+									{
+										"group": [
+											"@/controllers/**",
+											"@/adapters/**"
+										],
+										"message": "ARC-LAY-2: the domain imports no transport and no adapter."
+									},
+									{
+										"group": [
+											"@/database/**",
+											"@repo/database/**",
+											"drizzle-orm",
+											"drizzle-orm/**"
+										],
+										"message": "ARC-LAY-2: the domain imports no persistence."
+									},
+									{
+										"group": [
+											"express",
+											"fastify",
+											"@aws-sdk/**"
+										],
+										"message": "ARC-LAY-2: the domain imports no infrastructure client."
+									}
+								]
+							}
+						}
+					}
+				}
+			}
+		},
+		{
+			"includes": [
+				"**/src/controllers/**"
+			],
+			"linter": {
+				"rules": {
+					"style": {
+						"noRestrictedImports": {
+							"level": "error",
+							"options": {
+								"patterns": [
+									{
+										"group": [
+											"@/database/**",
+											"@repo/database/**",
+											"drizzle-orm",
+											"drizzle-orm/**"
+										],
+										"message": "ARC-LAY-3: the delivery boundary does not import persistence directly."
+									},
+									{
+										"group": [
+											"**/*.repository.js",
+											"**/*.repository.ts"
+										],
+										"message": "ARC-LAY-3: the delivery boundary calls a use-case, never a repository."
+									}
+								]
+							}
+						}
+					}
+				}
+			}
+		},
+		{
+			"includes": [
+				"**/src/adapters/**"
+			],
+			"linter": {
+				"rules": {
+					"style": {
+						"noRestrictedImports": {
+							"level": "error",
+							"options": {
+								"patterns": [
+									{
+										"group": [
+											"@/domains/**",
+											"@repo/domains/**"
+										],
+										"message": "ARC-LAY-8 / ADP-3: an adapter knows no domain — the domain declares the port, the app injects the implementation."
+									}
+								]
+							}
+						}
+					}
+				}
+			}
+		},
+		{
+			"includes": [
+				"**/*.json"
+			],
 			"assist": {
 				"actions": {
 					"source": {
-						"useSortedKeys": { "level": "off", "options": {} },
-						"useSortedProperties": { "level": "off", "options": {} }
+						"useSortedKeys": {
+							"level": "off",
+							"options": {}
+						},
+						"useSortedProperties": {
+							"level": "off",
+							"options": {}
+						}
 					}
 				}
 			}
@@ -120,11 +267,50 @@
 			"assist": {
 				"actions": {
 					"source": {
-						"useSortedKeys": { "level": "off", "options": {} },
-						"useSortedProperties": { "level": "off", "options": {} }
+						"useSortedKeys": {
+							"level": "off",
+							"options": {}
+						},
+						"useSortedProperties": {
+							"level": "off",
+							"options": {}
+						}
 					}
 				}
 			}
 		}
+	],
+	"plugins": [
+		"./plugins/breaker-named.grit",
+		"./plugins/dto-from-schema.grit",
+		"./plugins/log-level.grit",
+		"./plugins/no-adapter-new.grit",
+		"./plugins/no-ambient-clock.grit",
+		"./plugins/no-ambient-env.grit",
+		"./plugins/no-await-publish.grit",
+		"./plugins/no-background-loop.grit",
+		"./plugins/no-blind-error-cast.grit",
+		"./plugins/no-branch-on-message.grit",
+		"./plugins/no-client-in-adapter.grit",
+		"./plugins/no-empty-catch.grit",
+		"./plugins/no-external-call-in-tx.grit",
+		"./plugins/no-hand-rolled-field.grit",
+		"./plugins/no-hand-rolled-filter.grit",
+		"./plugins/no-hand-written-model-type.grit",
+		"./plugins/no-hard-delete.grit",
+		"./plugins/no-id-as-metric-label.grit",
+		"./plugins/no-io-in-entity.grit",
+		"./plugins/no-literal-throw.grit",
+		"./plugins/no-log-and-rethrow.grit",
+		"./plugins/no-log-interpolation.grit",
+		"./plugins/no-mass-assignment.grit",
+		"./plugins/no-permission-literal.grit",
+		"./plugins/no-plain-secret-compare.grit",
+		"./plugins/no-provider-switch.grit",
+		"./plugins/no-publish-in-tx.grit",
+		"./plugins/no-scope-from-input.grit",
+		"./plugins/no-string-date.grit",
+		"./plugins/no-swallow-in-handler.grit",
+		"./plugins/no-unbounded-concurrency.grit"
 	]
 }

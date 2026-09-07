@@ -1,0 +1,18 @@
+// ARC-OBS-3 — logs are structured: a stable message plus searchable fields.
+//
+// An interpolated message is a new string on every call, so nothing can be
+// grouped, counted or alerted on — the one thing a log line exists for.
+//
+// Matched by regex on the argument rather than by a template-literal pattern:
+// Grit does not compile a backtick pattern nested inside a call here, and the
+// interpolation marker is what actually distinguishes the two cases. Verified
+// against fixtures/{fail,pass}/no-log-interpolation.ts.
+$node where {
+  $node <: contains `$logger.$level($message)`,
+  $level <: or { `info`, `warn`, `error`, `debug` },
+  $message <: r".*\$\{.*",
+  register_diagnostic(
+    span = $message,
+    message = "ARC-OBS-3: keep the message stable and pass context as fields — interpolation is not context."
+  )
+}

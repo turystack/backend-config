@@ -9,7 +9,8 @@
 		"./tsconfig.api": "./tsconfig.api.json",
 		"./tsconfig.api.json": "./tsconfig.api.json",
 		"./tsconfig.handler": "./tsconfig.handler.json",
-		"./tsconfig.handler.json": "./tsconfig.handler.json"
+		"./tsconfig.handler.json": "./tsconfig.handler.json",
+		"./vitest": "./vitest.base.js"
 	},
 	"publishConfig": {
 		"access": "public"
@@ -19,11 +20,19 @@
 	},
 	"files": [
 		"biome.json",
+		"plugins",
 		"tsconfig.api.json",
-		"tsconfig.handler.json"
+		"tsconfig.handler.json",
+		"vitest.base.js"
 	],
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/turystack/backend-config.git"
+	},
+	"scripts": {
+		"check:fixtures": "node scripts/check-fixtures.mjs"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.2.2"
 	}
 }

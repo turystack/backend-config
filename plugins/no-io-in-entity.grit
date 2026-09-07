@@ -1,0 +1,19 @@
+// ENT-2 / ENT-8 — an entity guard covers one invariant and performs no IO; a
+// reader derives state with no side effects.
+//
+// An entity that awaits cannot be tested without infrastructure (`ARC-TST-2`),
+// and its rule becomes unavailable to anyone holding the object in memory —
+// which is every caller that already loaded it.
+//
+// Scoped by class name rather than by the `@Entity()` decorator: Grit does not
+// bind a decorated class as one pattern, and a Biome plugin cannot be limited
+// to a path (the object form of `plugins` is silently ignored in 2.2.2). The
+// naming convention is what makes the rule safe to run everywhere.
+`class $name { $body }` where {
+  $body <: contains `await $call`,
+  $name <: r".*Entity$",
+  register_diagnostic(
+    span = $name,
+    message = "ENT-2: an entity performs no IO — the rule must hold on an object already in memory."
+  )
+}

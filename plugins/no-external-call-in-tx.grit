@@ -1,0 +1,15 @@
+// ARC-CON-3 — a transaction holds locks. An HTTP call inside one holds them for
+// as long as the other side takes to answer, which on a bad day is the timeout.
+// The provider's slowness becomes the database's outage.
+$node where {
+  $node <: contains `$runner.transaction($callback)`,
+  $callback <: contains or {
+    `fetch($request)`,
+    `axios.$verb($url)`,
+    `$client.request($options)`
+  },
+  register_diagnostic(
+    span = $callback,
+    message = "ARC-CON-3: no external call inside a transaction — the remote side's latency becomes lock duration. Call before, or after the commit."
+  )
+}

@@ -1,0 +1,16 @@
+// ARC-OBS-4 — an error is logged once, at the highest boundary.
+//
+// Logging and rethrowing produces the same failure three times in the search
+// results, at three different layers, and the one carrying useful context is
+// whichever the reader happens to open first.
+//
+// Written as the whole `try/catch`: Grit binds neither a bare `catch` clause
+// nor a `catch ($e)` on its own. Verified against the fixtures.
+`try { $tried } catch ($error) { $body }` where {
+  $body <: contains `$logger.error($args)`,
+  $body <: contains `throw $rethrown`,
+  register_diagnostic(
+    span = $error,
+    message = "ARC-OBS-4: rethrow without logging — the boundary logs once, with context this layer cannot add."
+  )
+}

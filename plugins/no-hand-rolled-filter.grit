@@ -1,0 +1,12 @@
+// REP-L1 — a filter assembled as a string is a filter no type checks, no
+// schema constrains and no reader can audit for injection. Filters, sorting and
+// pagination go through `@turystack/query-dsl`, which produces the same shape
+// from the same declaration every time.
+`$builder.$method($condition)` where {
+  $method <: or { `where`, `andWhere`, `orWhere`, `having`, `whereRaw` },
+  $condition <: or { r"^['\"].*", r"^`.*" },
+  register_diagnostic(
+    span = $condition,
+    message = "REP-L1: build filters with `@turystack/query-dsl`. A string condition is untyped and unauditable."
+  )
+}

@@ -1,0 +1,10 @@
+// ARC-SEC-1 — scope and ownership come from the authenticated context, never
+// from a field the client sent. Reading the tenant from the query is the
+// classic IDOR: any client can claim to belong to any tenant.
+`@Query($field)` where {
+  $field <: or { `'organizationId'`, `'workspaceId'`, `'userId'`, `'tenantId'` },
+  register_diagnostic(
+    span = $field,
+    message = "ARC-SEC-1: scope comes from the authenticated profile, never from client input."
+  )
+}

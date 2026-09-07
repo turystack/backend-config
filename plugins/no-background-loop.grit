@@ -1,0 +1,12 @@
+// ARC-TOP-5 — a short-lived process does not sustain background work.
+//
+// An interval keeps a long process busy and dies halfway through a short-lived
+// one, after the response was sent and before the work finished. Nothing errors;
+// the batch is simply half-processed, and the next run starts from a state
+// nobody planned for.
+`setInterval($args)` where {
+  register_diagnostic(
+    span = $args,
+    message = "ARC-TOP-5: work that must keep going is its own delivery, woken from outside — an interval dies with the process."
+  )
+}

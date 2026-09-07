@@ -1,0 +1,16 @@
+// ARC-TOP-6 — configuration is validated at boot and read through a typed
+// service.
+//
+// `process.env` in application code is a value nobody validated, whose absence
+// is discovered at the moment it is needed rather than at startup — and whose
+// shape nothing guarantees.
+//
+// Matched with `contains` rather than as a member expression: Grit does not
+// bind `process.env.$key` here. Verified against the fixtures.
+$node where {
+  $node <: contains `process.env`,
+  register_diagnostic(
+    span = $node,
+    message = "ARC-TOP-6: read configuration from the validated typed service, never from process.env."
+  )
+}

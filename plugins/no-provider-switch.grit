@@ -1,0 +1,15 @@
+// ADP-5 — a strategy is a record keyed by provider, never an inline switch.
+//
+// A switch puts every provider's branch in one function, so adding the fourth
+// means editing the code that already works for the other three. A record makes
+// the new provider an entry, and the compiler names the case nobody filled in.
+//
+// Matched by regex on the node: Grit does not bind `switch ($subject) { $cases }`
+// here. Verified against fixtures/{fail,pass}/no-provider-switch.ts.
+$node where {
+  $node <: r"switch *\([^)]*[Pp]rovider[^)]*\)[\s\S]*",
+  register_diagnostic(
+    span = $node,
+    message = "ADP-5: use Record<Provider, Adapter> — a switch makes every new provider an edit to working code."
+  )
+}

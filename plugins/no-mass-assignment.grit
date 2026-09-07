@@ -1,0 +1,4 @@
+`{ ...$source }` where {
+  $source <: or { `request.body`, `req.body`, `input` },
+  register_diagnostic(span = $source, message = "ARC-SEC-5: only fields from an explicit projection reach persistence.")
+}

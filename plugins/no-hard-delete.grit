@@ -1,0 +1,11 @@
+// ARC-DAT-4 — removal is an explicit decision.
+//
+// A physical delete on a domain table is irreversible and reaches nothing else:
+// the caches, exports and read models keep the row. Soft delete is a state;
+// erasure is a declared path. A bare `.delete()` is neither.
+`$table.delete($args)` where {
+  register_diagnostic(
+    span = $table,
+    message = "ARC-DAT-4: removal is a decision — soft delete is a state, erasure is a declared path reaching every copy."
+  )
+}

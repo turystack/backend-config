@@ -1,0 +1,14 @@
+// ARC-SEC-12 — a permission identifier comes from the product's single
+// catalogue, published by the backend.
+//
+// A hand-written string is a permission that exists in one file. Renaming the
+// real one leaves this route guarding a permission nobody holds — which fails
+// open or closed depending on the guard, and neither is discovered by a test
+// that used the same literal.
+`@ACL($permission)` where {
+  $permission <: r"^\'.*\'$",
+  register_diagnostic(
+    span = $permission,
+    message = "ARC-SEC-12: reference the published permission catalogue, never a literal string."
+  )
+}

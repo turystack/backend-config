@@ -1,0 +1,15 @@
+// TEL-4 — the level is the query. An unexpected failure logged at `info` is
+// invisible in the filter every on-call rotation actually uses, and a healthy
+// read logged at `error` makes that filter useless for everyone else.
+//
+// The catch block is the case a machine can see: the branch reached because
+// something failed, reporting at a level that says it did not.
+`try { $body } catch ($error) { $handler }` where {
+  $handler <: contains `$logger.$level($args)` where {
+    $level <: or { `info`, `debug`, `trace` }
+  },
+  register_diagnostic(
+    span = $level,
+    message = "TEL-4: an unexpected failure logs at `error`. At `info` it never reaches the filter someone is watching."
+  )
+}

@@ -1,0 +1,14 @@
+or {
+  `Date.now($args)` where {
+    register_diagnostic(
+      span = $args,
+      message = "ARC-TOP-7: the clock is injected, never read from the runtime. Receive the instant the operation should reason about."
+    )
+  },
+  `new Date()` as $call where {
+    register_diagnostic(
+      span = $call,
+      message = "ARC-TOP-7: `new Date()` reads the runtime clock. Receive the instant instead."
+    )
+  }
+}

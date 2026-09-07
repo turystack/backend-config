@@ -1,0 +1,10 @@
+// SCH-L2 — a date declared as `z.string()` parses, validates nothing about
+// time, and hands the rest of the system a string that every consumer has to
+// re-parse. The field name is the signal: `createdAt`, `dueDate`, `expiresOn`.
+`$field: z.string($args)` where {
+  $field <: r"\w*(?:At|Date|On)",
+  register_diagnostic(
+    span = $field,
+    message = "SCH-L2: dates use `z.date()`. `z.string()` validates the characters, not the instant."
+  )
+}

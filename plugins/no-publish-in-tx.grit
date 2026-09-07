@@ -1,0 +1,15 @@
+// ARC-CON-5 — an event published inside the transaction is published before the
+// commit, and the transaction can still roll back. Subscribers then react to a
+// write that never happened, and nothing rolls their reaction back.
+$node where {
+  $node <: contains `$runner.transaction($callback)`,
+  $callback <: contains or {
+    `$bus.publish($event)`,
+    `$bus.emit($event)`,
+    `$bus.dispatch($event)`
+  },
+  register_diagnostic(
+    span = $callback,
+    message = "ARC-CON-5: publish after the commit. Inside the transaction, a rollback leaves subscribers reacting to a write that does not exist."
+  )
+}

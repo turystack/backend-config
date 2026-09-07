@@ -1,0 +1,10 @@
+// ARC-ERR-6 — the consumer branches on the code, never on the message.
+//
+// The message is human and may change: a translation, a rewording, a typo fix
+// silently breaks every branch that read it. The code is the contract.
+`$error.message === $other` where {
+  register_diagnostic(
+    span = $error,
+    message = "ARC-ERR-6: branch on error.code — the message is human and changes without warning."
+  )
+}

@@ -1,0 +1,11 @@
+or {
+  `z.string().trim().min($n)`,
+  `z.string().min($n).trim()`,
+  `z.coerce.number($args)`,
+  `z.coerce.date($args)`,
+} as $field where {
+  register_diagnostic(
+    span = $field,
+    message = "SCH-L5: input fields come from `@turystack/fields`. `.trim().min()` still admits a zero-width space, `z.coerce.number()` turns a blank field into 0, and `z.coerce.date()` moves the day in a negative-offset zone."
+  )
+}
