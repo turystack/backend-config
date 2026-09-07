@@ -99,7 +99,8 @@
 			"recommended": true,
 			"style": {
 				"useBlockStatements": "error",
-				"noNonNullAssertion": "warn"
+				"noNonNullAssertion": "warn",
+				"useImportType": "off"
 			},
 			"complexity": {
 				"noStaticOnlyClass": "off",
