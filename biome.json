@@ -151,14 +151,18 @@
 									{
 										"group": [
 											"@/controllers/**",
-											"@/adapters/**"
+											"@/controllers",
+											"@/adapters/**",
+											"@/adapters"
 										],
 										"message": "ARC-LAY-2: the domain imports no transport and no adapter."
 									},
 									{
 										"group": [
 											"@/database/**",
+											"@/database",
 											"@repo/database/**",
+											"@repo/database",
 											"drizzle-orm",
 											"drizzle-orm/**"
 										],
@@ -193,7 +197,9 @@
 									{
 										"group": [
 											"@/database/**",
+											"@/database",
 											"@repo/database/**",
+											"@repo/database",
 											"drizzle-orm",
 											"drizzle-orm/**"
 										],
@@ -227,9 +233,11 @@
 									{
 										"group": [
 											"@/domains/**",
-											"@repo/domains/**"
+											"@/domains",
+											"@repo/domains/**",
+											"@repo/domains"
 										],
-										"message": "ARC-LAY-8 / ADP-3: an adapter knows no domain — the domain declares the port, the app injects the implementation."
+										"message": "ARC-LAY-8 / ADP-3: an adapter knows no domain \u2014 the domain declares the port, the app injects the implementation."
 									}
 								]
 							}

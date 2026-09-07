@@ -1,3 +1,4 @@
+import { coverage, FLOOR } from '@turystack/config/vitest'
 import { defineConfig } from 'vitest/config'
 
 /**
@@ -9,24 +10,17 @@ import { defineConfig } from 'vitest/config'
  *   that cannot fail, which is worse than no gate at all because it is green.
  * - **Coverage floors.** 85% on the codebase; the delivery report holds the
  *   higher floor on the lines a task changed, because old code has history and
- *   new code has none.
+ *   new code has none. The number lives in `@turystack/config`, so a backend
+ *   and a frontend cannot drift to two different floors.
  */
-export const FLOOR = 85
+export { FLOOR }
 
 export function backend(overrides = {}) {
 	return defineConfig({
 		test: {
-			coverage: {
+			coverage: coverage({
 				exclude: ['**/*.mock.ts', '**/*.types.ts', '**/main.ts', '**/*.config.ts'],
-				provider: 'v8',
-				reporter: ['text', 'json-summary', 'json'],
-				thresholds: {
-					branches: FLOOR,
-					functions: FLOOR,
-					lines: FLOOR,
-					statements: FLOOR,
-				},
-			},
+			}),
 			passWithNoTests: false,
 			...overrides,
 		},
